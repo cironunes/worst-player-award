@@ -1,3 +1,24 @@
-<div class="home">
-  <h2>Home</h2>
-</div>
+<form (submit)="addPlayer($event, nameInput.value)" [ng-form-model]="form" #f="form">
+  <div>
+    <label>
+      <span>Name:</span>
+      <input type="text" id="name" ng-control="firstName" autofocus>
+    </label>
+  </div>
+
+  <button type="submit" [disabled]="!f.form.valid">Submit</button>
+</form>
+
+<ul>
+  <li *ng-for="var player of playerService.get('players'); var $index = index"
+     [router-link]="['/vote', {player: $index}]">
+    {{ player.name }}
+    {{ player.votedIn?.name  }}
+    <button (click)="removePlayer($index)">x</button>
+  </li>
+</ul>
+
+<button (click)="getLoser()">Get Loser!</button>
+
+{{ loser?.name }}
+{{ loser?.votes }}

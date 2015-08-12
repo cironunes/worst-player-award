@@ -1,12 +1,9 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
 import {bind} from 'angular2/angular2';
-
-import {todoInjectables} from './TodoService';
-import {githubInjectables} from '../components/rxjs-examples/autosuggest/Github';
+import {playerInjectables} from './PlayerService';
 
 // Include injectables that you want to have globally throughout our app
 export var appServicesInjectables: Array<any> = [
-  githubInjectables,
-  todoInjectables,
+  playerInjectables
 ];

@@ -1,33 +1,50 @@
 /// <reference path="../../../typings/_custom.d.ts" />
 
-/*
- * Angular 2
- */
 import {Component, View} from 'angular2/angular2';
+import {formDirectives, NgControl, NgFormModel, FormBuilder, Validators} from 'angular2/forms';
 
-/*
- * Directives
- * angularDirectives: Angular's core/form/router directives
- * appDirectives: Our collection of directives from /directives
- */
-import {appDirectives, angularDirectives} from 'app/directives/directives';
+import {appDirectives, angularDirectives} from '../../directives/directives';
 
-// Use webpack's `require` to get files as a raw string using raw-loader
+import {PlayerService} from '../../services/PlayerService';
+
 let styles   = require('./home.css');
 let template = require('./home.html');
 
-// Simple external file component example
 @Component({
   selector: 'home'
 })
 @View({
-  directives: [ angularDirectives, appDirectives ],
-  // include our .html and .css file
+  directives: [ angularDirectives, appDirectives, formDirectives ],
   styles: [ styles ],
   template: template
 })
 export class Home {
-  constructor() {
+  form: any;
+  nameInput: any;
+  playerService;
+  loser;
 
+  constructor(fb: FormBuilder, playerService: PlayerService) {
+    this.form = fb.group({
+      firstName: ['', Validators.required]
+    });
+
+    this.playerService = playerService;
+    this.nameInput = this.form.controls.firstName;
+  }
+
+  addPlayer($event, name) {
+    $event.preventDefault();
+
+    this.playerService.add(name);
+    this.nameInput.updateValue('');
+  }
+
+  removePlayer(index) {
+    this.playerService.remove(index);
+  }
+
+  getLoser() {
+    this.loser = this.playerService.getLoser();
   }
 }

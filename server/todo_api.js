@@ -16,7 +16,6 @@ var todos = [
 module.exports = function() {
   var router = express.Router();
 
-
   router.route('/todos')
     .get(function(req, res) {
       console.log('GET');

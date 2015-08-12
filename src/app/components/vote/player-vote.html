@@ -1,0 +1,8 @@
+<span>{{ player.name }}</span>
+
+<ul>
+  <li *ng-for="#p of players; var $index = index">
+    {{ p.name }}
+    <button (click)="vote(player.$index, $index)">Vote</button>
+  </li>
+</ul>
