@@ -1,4 +1,4 @@
-# Worse Player Award
+# Worst Player Award
 
 > A sample application using Angular 2
 
