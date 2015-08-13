@@ -39,6 +39,7 @@
   "homepage": "https://github.com/angular-class/angular2-webpack-starter",
   "dependencies": {
     "angular2": "2.0.0-alpha.33",
+    "express": "^4.13.3",
     "reflect-metadata": "^0.1.0",
     "rtts_assert": "2.0.0-alpha.33",
     "rx": "^2.5.3",
@@ -58,6 +59,7 @@
     "karma-phantomjs-launcher": "^0.2.0",
     "karma-sourcemap-loader": "^0.3.5",
     "karma-webpack": "^1.7.0",
+    "morgan": "^1.6.1",
     "phantomjs": "^1.9.17",
     "protractor": "^2.1.0",
     "raw-loader": "^0.5.1",
