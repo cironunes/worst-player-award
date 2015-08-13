@@ -1,6 +1,7 @@
 import {bind, Inject, Injectable} from 'angular2/angular2';
 
 interface IPlayer {
+  id: number;
   name: string;
   votedIn?: IPlayer;
 }
@@ -8,6 +9,8 @@ interface IPlayer {
 interface IPlayerState {
   players: Array<IPlayer>;
 }
+
+let _id = 0;
 
 let initialPlayersState:IPlayerState = {
   players: []
@@ -32,8 +35,13 @@ export class PlayerService {
   }
 
   add(name) {
-    var players = this.get('players').slice();
-    players.push({ name: name });
+    var players = this.get('players').slice(),
+        id = _getNextId();
+    players.push({
+      id: id,
+      name: name,
+      avatar: 'http://api.adorable.io/avatars/40/' + id
+    });
 
     this.set('players', players);
   }
@@ -61,7 +69,7 @@ export class PlayerService {
     var loser;
 
     players.forEach(function(player) {
-      votedIn = player.votedIn.name;
+      votedIn = player.votedIn.id;
 
       if (typeof votes[votedIn] === 'number') {
         votes[votedIn] += 1;
@@ -70,15 +78,45 @@ export class PlayerService {
       }
     });
 
-    for (let player in votes) {
-      if (votes[player] > biggerScore) {
-        biggerScore = votes[player];
-        loser = { name: player, votes: votes[player] };
+    for (let id in votes) {
+      if (votes[id] > biggerScore) {
+        biggerScore = votes[id];
+        loser = this.getPlayerById(id);
+        loser.votes = votes[id];
       }
     }
 
     return loser;
   }
+
+  getPlayerById(id) {
+    var players = this.get('players').slice();
+    var playerFound;
+
+    playerFound = players.filter((player) => {
+      return '' + player.id === id;
+    })[0];
+
+    return playerFound;
+  }
+
+  isVotationOpen() {
+    var players = this.get('players').slice();
+    var votationOpen = false;
+
+    players.forEach(function(player) {
+      if (typeof player.votedIn === 'undefined') {
+        votationOpen = true;
+      }
+    });
+
+    return votationOpen;
+  }
+}
+
+function _getNextId() {
+  _id += 1;
+  return _id;
 }
 
 export var playerInjectables: Array<any> = [

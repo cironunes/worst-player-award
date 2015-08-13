@@ -1,7 +1,8 @@
-<span>{{ player.name }}</span>
+<span>Now voting: {{ player.name }}</span>
 
 <ul>
   <li *ng-for="#p of players; var $index = index">
+    <img [src]="p.avatar" width="40" height="40">
     {{ p.name }}
     <button (click)="vote(player.$index, $index)">Vote</button>
   </li>

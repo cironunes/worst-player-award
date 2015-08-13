@@ -12,13 +12,22 @@
 <ul>
   <li *ng-for="var player of playerService.get('players'); var $index = index"
      [router-link]="['/vote', {player: $index}]">
+    <img [src]="player.avatar" width="40" height="40">
     {{ player.name }}
-    {{ player.votedIn?.name  }}
+    <span [hidden]="!player.votedIn">
+        <img [src]="player.votedIn?.avatar" width="40" height="40">
+        {{ player.votedIn?.name  }}
+    </span>
     <button (click)="removePlayer($index)">x</button>
   </li>
 </ul>
 
-<button (click)="getLoser()">Get Loser!</button>
+<span [hidden]="hasNoPlayers()">
+    <button (click)="getLoser()" [disabled]="isVotationOpen()">Get Loser!</button>
+</span>
 
-{{ loser?.name }}
-{{ loser?.votes }}
+<span [hidden]="!loser">
+    <img [src]="loser?.avatar" width="40" height="40">
+    {{ loser?.name }}
+    {{ loser?.votes }}
+</span>

@@ -23,6 +23,7 @@ export class Home {
   nameInput: any;
   playerService;
   loser;
+  votationEnded;
 
   constructor(fb: FormBuilder, playerService: PlayerService) {
     this.form = fb.group({
@@ -46,5 +47,13 @@ export class Home {
 
   getLoser() {
     this.loser = this.playerService.getLoser();
+  }
+
+  isVotationOpen() {
+    return this.playerService.isVotationOpen();
+  }
+
+  hasNoPlayers() {
+    return this.playerService.get('players').length === 0;
   }
 }
