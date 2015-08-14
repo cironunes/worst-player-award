@@ -21,7 +21,7 @@ router.route('/games/:game_id')
   .put(function _updateGame(request, response) {
     response.send('Editing game: ' + request.params.game_id);
   })
-
+  
   .delete(function _deleteGame(request, response) {
     response.send('Delete game: ' + request.params.game_id);
   });
