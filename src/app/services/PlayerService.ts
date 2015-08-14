@@ -37,6 +37,8 @@ export class PlayerService {
   add(name) {
     var players = this.get('players').slice(),
         id = _getNextId();
+
+    // TODO: use the Player class to instantiate a new player
     players.push({
       id: id,
       name: name,

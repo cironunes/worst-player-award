@@ -62,7 +62,14 @@ describe('Service: Player', () => {
 
     describe('#add', () => {
       it('should add items to the `players` collection', () => {
-        //playerService.add()
+        var lastAdded;
+
+        playerService.add('Ciro');
+        lastAdded = playerService._state.players[playerService._state.players.length - 1];
+
+        expect(lastAdded.name).toBe('Ciro');
+        expect(lastAdded.id).toBe(1);
+        expect(lastAdded.avatar).toBe('http://api.adorable.io/avatars/40/1');
       });
     });
   });
