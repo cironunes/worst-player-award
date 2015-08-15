@@ -1,27 +1,20 @@
-import {PlayerService} from './PlayerService';
-
-interface IPlayer {
-  name: string;
-  votedIn?: IPlayer;
-}
-
-interface IPlayerState {
-  players: Array<IPlayer>;
-}
+import {PlayerService, IPlayer, IPlayerState} from './PlayerService';
 
 class Players implements IPlayerState {
   players: Array<IPlayer>;
 
   constructor() {
-    this.players = [new Player('Andre'), new Player('Ciro')];
+    this.players = [new Player('Andre', 4), new Player('Ciro', 10)];
   }
 }
 
 class Player implements IPlayer {
+  id: number;
   name: string;
   votedIn: IPlayer;
 
-  constructor(name: string) {
+  constructor(name: string, id: number) {
+    this.id = id;
     this.name = name;
   }
 }
@@ -66,10 +59,35 @@ describe('Service: Player', () => {
 
         playerService.add('Ciro');
         lastAdded = playerService._state.players[playerService._state.players.length - 1];
-
         expect(lastAdded.name).toBe('Ciro');
         expect(lastAdded.id).toBe(1);
         expect(lastAdded.avatar).toBe('http://api.adorable.io/avatars/40/1');
+      });
+
+      it('should increment the ids', () => {
+        var lastAdded;
+
+        playerService.add('Ciro');
+        lastAdded = playerService._state.players[playerService._state.players.length - 1];
+        expect(lastAdded.id).toBe(1);
+
+        playerService.add('Andre');
+        lastAdded = playerService._state.players[playerService._state.players.length - 1];
+        expect(lastAdded.id).toBe(2);
+      });
+    });
+
+    describe('#remove', () => {
+      it('should remove items from the `players` collection by the ID', () => {
+        expect(playerService._state.players.length).toBe(2);
+        expect(playerService._state.players[0].id).toBe(4);
+
+        playerService.remove(4);
+        expect(playerService._state.players.length).toBe(1);
+        expect(playerService._state.players[0].id).toBe(10);
+
+        playerService.remove(10);
+        expect(playerService._state.players.length).toBe(0);
       });
     });
   });

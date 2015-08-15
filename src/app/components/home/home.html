@@ -18,7 +18,7 @@
         <img [src]="player.votedIn?.avatar" width="40" height="40">
         {{ player.votedIn?.name  }}
     </span>
-    <button (click)="removePlayer($index)">x</button>
+    <button (click)="removePlayer(player.id)">x</button>
   </li>
 </ul>
 

@@ -1,12 +1,12 @@
 import {bind, Inject, Injectable} from 'angular2/angular2';
 
-interface IPlayer {
+export interface IPlayer {
   id: number;
   name: string;
   votedIn?: IPlayer;
 }
 
-interface IPlayerState {
+export interface IPlayerState {
   players: Array<IPlayer>;
 }
 
@@ -18,10 +18,12 @@ let initialPlayersState:IPlayerState = {
 
 @Injectable()
 export class PlayerService {
+  _id: number;
   _state: IPlayerState;
 
   constructor(@Inject('initialPlayersState') players: IPlayerState) {
     this._state = players;
+    this._id = 0;
   }
 
   get(type: string) {
@@ -36,7 +38,7 @@ export class PlayerService {
 
   add(name) {
     var players = this.get('players').slice(),
-        id = _getNextId();
+        id = this._getNextId();
 
     // TODO: use the Player class to instantiate a new player
     players.push({
@@ -48,21 +50,27 @@ export class PlayerService {
     this.set('players', players);
   }
 
-  remove(index) {
+  remove(id: number) {
     var players = this.get('players').slice();
-    players.splice(index, 1);
+
+    players = players.filter((player) => {
+      return player.id !== id;
+    });
 
     this.set({
       players: players
     });
   }
 
+  // TODO: write tests
+  // TODO: use ids instead of $indexes
   vote(from, target) {
     var players = this.get('players').slice();
     players[from].votedIn = players[target];
     this.set('players', players);
   }
 
+  // TODO: write tests
   getLoser() {
     var players = this.get('players').slice();
     var votes = {};
@@ -91,6 +99,7 @@ export class PlayerService {
     return loser;
   }
 
+  // TODO: write tests
   getPlayerById(id) {
     var players = this.get('players').slice();
     var playerFound;
@@ -102,6 +111,7 @@ export class PlayerService {
     return playerFound;
   }
 
+  // TODO: write tests
   isVotationOpen() {
     var players = this.get('players').slice();
     var votationOpen = false;
@@ -114,12 +124,13 @@ export class PlayerService {
 
     return votationOpen;
   }
+
+  _getNextId() {
+    this._id += 1;
+    return this._id;
+  }
 }
 
-function _getNextId() {
-  _id += 1;
-  return _id;
-}
 
 export var playerInjectables: Array<any> = [
   bind('initialPlayersState').toValue(initialPlayersState),
