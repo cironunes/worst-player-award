@@ -65,9 +65,12 @@ export class PlayerService {
   // TODO: write tests
   // TODO: use ids instead of $indexes
   vote(from, target) {
-    var players = this.get('players').slice();
-    players[from].votedIn = players[target];
-    this.set('players', players);
+    var playerVoting = this.getPlayerById(from),
+        playerVoted = this.getPlayerById(target);
+
+    playerVoting.votedIn = playerVoted;
+
+    this.set('players', this.get('players'));
   }
 
   // TODO: write tests
@@ -105,7 +108,7 @@ export class PlayerService {
     var playerFound;
 
     playerFound = players.filter((player) => {
-      return '' + player.id === id;
+      return '' + player.id === '' + id;
     })[0];
 
     return playerFound;

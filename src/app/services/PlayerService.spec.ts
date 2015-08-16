@@ -90,5 +90,12 @@ describe('Service: Player', () => {
         expect(playerService._state.players.length).toBe(0);
       });
     });
+
+    describe('#vote', () => {
+      it('should vote using a given player in another given player', function () {
+        playerService.vote('4', '10');
+        expect(playerService._state.players[0].votedIn).toBe(playerService._state.players[1]);
+      });
+    });
   });
 });
