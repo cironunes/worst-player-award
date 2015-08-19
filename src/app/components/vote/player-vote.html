@@ -1,4 +1,6 @@
-<span>Now voting: {{ player.name }}</span>
+<span>
+  Now voting: <img [src]="player.avatar" width="40" height="40"> {{ player.name }}
+</span>
 
 <ul>
   <li *ng-for="#p of players; var $index = index">
