@@ -111,6 +111,10 @@ export class PlayerService {
       return '' + player.id === '' + id;
     })[0];
 
+    if (!playerFound) {
+      throw new Error(`Not found a player with id: ${id}`);
+    }
+
     return playerFound;
   }
 

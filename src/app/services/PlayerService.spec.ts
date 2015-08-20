@@ -27,7 +27,7 @@ describe('Service: Player', () => {
     expect(playerService._state).toEqual([]);
   });
 
-  describe('get/set & add/remove', () => {
+  describe('get/set, add/remove, vote, getLoser and getPlayerById', () => {
     var players: IPlayerState;
 
     beforeEach(() => {
@@ -97,5 +97,18 @@ describe('Service: Player', () => {
         expect(playerService._state.players[0].votedIn).toBe(playerService._state.players[1]);
       });
     });
+
+    describe('#getPlayerById', () => {
+      it('should thrown if not found', function () {
+        expect(function() {
+          playerService.getPlayerById(11);
+        }).toThrow(new Error('Not found a player with id: 11'));
+      });
+
+      it('should return the player found', () => {
+        expect(playerService.getPlayerById(10)).toEqual(playerService._state.players[1]);
+      });
+    });
+
   });
 });
