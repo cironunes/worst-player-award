@@ -109,6 +109,5 @@ describe('Service: Player', () => {
         expect(playerService.getPlayerById(10)).toEqual(playerService._state.players[1]);
       });
     });
-
   });
 });

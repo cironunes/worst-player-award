@@ -12,6 +12,18 @@ export interface IPlayerState {
 
 let _id = 0;
 
+class Player {
+  id: number;
+  name: string;
+  avatar: string;
+
+  constructor(id: number, name: string, avatar: string) {
+    this.id = id;
+    this.name = name;
+    this.avatar = avatar;
+  }
+}
+
 let initialPlayersState:IPlayerState = {
   players: []
 };
@@ -38,14 +50,13 @@ export class PlayerService {
 
   add(name) {
     var players = this.get('players').slice(),
-        id = this._getNextId();
+        id = this._getNextId(),
+        avatar = 'http://api.adorable.io/avatars/40/' + id,
+        player: IPlayer;
 
-    // TODO: use the Player class to instantiate a new player
-    players.push({
-      id: id,
-      name: name,
-      avatar: 'http://api.adorable.io/avatars/40/' + id
-    });
+    player = new Player(id, name, avatar);
+
+    players.push(player);
 
     this.set('players', players);
   }
@@ -62,8 +73,6 @@ export class PlayerService {
     });
   }
 
-  // TODO: write tests
-  // TODO: use ids instead of $indexes
   vote(from, target) {
     var playerVoting = this.getPlayerById(from),
         playerVoted = this.getPlayerById(target);
@@ -102,7 +111,6 @@ export class PlayerService {
     return loser;
   }
 
-  // TODO: write tests
   getPlayerById(id) {
     var players = this.get('players').slice();
     var playerFound;
